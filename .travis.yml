@@ -1,0 +1,77 @@
+matrix:
+  include:
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.13
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.12
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.11
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.10
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.9
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.8
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.7
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.6
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.5
+    - os: linux-ppc64le
+      dist: xenial
+      env: version=0.11.4
+      
+sudo: required
+services:
+  - docker
+  # add TF_CONSUL_TEST=1 to run consul tests
+# they were causing timouts in travis
+# add TF_ETCDV3_TEST=1 to run etcdv3 tests
+# if added, TF_ETCDV3_ENDPOINTS must be set to a comma-separated list of (insecure) etcd endpoints against which to test
+env:
+  - CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+
+# Fetch consul for the backend and provider tests
+before_install:
+  - cd ..
+  - rm -rf terraform
+  - wget https://github.com/hashicorp/terraform/archive/v$version.zip
+  - unzip v$version.zip
+  - mv terraform-$version terraform
+  - cd terraform
+  - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
+  - unzip consul.zip
+  - mkdir -p ~/bin
+  - mv consul ~/bin
+  - export PATH="~/bin:$PATH"
+  - sudo apt-get update
+  - sudo apt-get install -y lftp
+
+install:
+# This script is used by the Travis build to install a cookie for
+# go.googlesource.com so rate limits are higher when using `go get` to fetch
+# packages that live there.
+# See: https://github.com/golang/go/issues/12933
+- bash scripts/gogetcookie.sh
+- make tools
+
+before_script:
+- git config --global url.https://github.com/.insteadOf ssh://git@github.com/
+
+script:
+- make
+
+matrix:
+  fast_finish: true
+  allow_failures:
+  - go: tip
