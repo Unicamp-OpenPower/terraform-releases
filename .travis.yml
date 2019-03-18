@@ -50,10 +50,10 @@ before_install:
   - mv terraform-$version terraform
   - cd terraform
   - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-  - unzip consul.zip
-  - mkdir -p ~/bin
-  - mv consul ~/bin
-  - export PATH="~/bin:$PATH"
+#  - unzip consul.zip
+#  - mkdir -p ~/bin
+#  - mv consul ~/bin
+#  - export PATH="~/bin:$PATH"
   - sudo apt-get update
   - sudo apt-get install -y lftp
 
@@ -62,11 +62,12 @@ install:
 # go.googlesource.com so rate limits are higher when using `go get` to fetch
 # packages that live there.
 # See: https://github.com/golang/go/issues/12933
-- bash scripts/gogetcookie.sh
+#- bash scripts/gogetcookie.sh
 - make tools
 
 before_script:
-- git config --global url.https://github.com/.insteadOf ssh://git@github.com/
+#- git config --global url.https://github.com/.insteadOf ssh://git@github.com/
 
 script:
 - make
+- ls
