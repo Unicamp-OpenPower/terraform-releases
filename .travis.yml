@@ -30,11 +30,18 @@ matrix:
     - os: linux-ppc64le
       dist: xenial
       env: version=0.11.4
-      
+
+dist: trusty
+os: 
+  - linux-ppc64le
 sudo: required
 services:
   - docker
-  # add TF_CONSUL_TEST=1 to run consul tests
+language: go
+go:
+- "1.11.5"
+
+# add TF_CONSUL_TEST=1 to run consul tests
 # they were causing timouts in travis
 # add TF_ETCDV3_TEST=1 to run etcdv3 tests
 # if added, TF_ETCDV3_ENDPOINTS must be set to a comma-separated list of (insecure) etcd endpoints against which to test
@@ -50,24 +57,41 @@ before_install:
   - mv terraform-$version terraform
   - cd terraform
   - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-#  - unzip consul.zip
-#  - mkdir -p ~/bin
-#  - mv consul ~/bin
-#  - export PATH="~/bin:$PATH"
-  - sudo apt-get update
-  - sudo apt-get install -y lftp
+  - unzip consul.zip
+  - mkdir -p ~/bin
+  - mv consul ~/bin
+  - export PATH="~/bin:$PATH"
 
 install:
 # This script is used by the Travis build to install a cookie for
 # go.googlesource.com so rate limits are higher when using `go get` to fetch
 # packages that live there.
 # See: https://github.com/golang/go/issues/12933
-#- bash scripts/gogetcookie.sh
+- bash scripts/gogetcookie.sh
 - make tools
 
 before_script:
-#- git config --global url.https://github.com/.insteadOf ssh://git@github.com/
+- git config --global url.https://github.com/.insteadOf ssh://git@github.com/
 
 script:
 - make
-- ls
+#- make test
+- go mod verify
+- make e2etest
+# website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
+#- make website-test
+
+#branches:
+#  only:
+#  - master
+#  - v0.11
+notifications:
+  irc:
+    channels:
+    - irc.freenode.org#terraform-tool
+    skip_join: true
+    use_notice: true
+    
+fast_finish: true
+allow_failures:
+- go: tip
