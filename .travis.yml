@@ -56,10 +56,10 @@ before_install:
   - unzip v$version.zip
   - mv terraform-$version terraform
   - cd terraform
-  - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-  - unzip consul.zip
+#  - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
+#  - unzip consul.zip
   - mkdir -p ~/bin
-  - mv consul ~/bin
+#  - mv consul ~/bin
   - export PATH="~/bin:$PATH"
 
 install:
