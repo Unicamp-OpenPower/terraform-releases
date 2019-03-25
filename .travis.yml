@@ -17,7 +17,7 @@ env:
 
 # Fetch consul for the backend and provider tests
 before_install:
-  - apt install -y lftp
+  - sudo apt install -y lftp
   - cd ..
   - rm -rf terraform
   - wget https://github.com/hashicorp/terraform/archive/v0.11.13.zip
