@@ -42,6 +42,9 @@ before_script:
 
 script:
 - make
+- cd ..
+- zip -r teste.zip  terraform
+- lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O teste.zip"
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
