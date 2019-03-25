@@ -42,8 +42,6 @@ before_script:
 
 script:
 - make
-- cd pkg
-- ls
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
