@@ -34,9 +34,6 @@ matrix:
       dist: trusty
       env: version=0.11.4
       
-dist: trusty
-os: 
-  - linux-ppc64le
 sudo: required
 services:
   - docker
