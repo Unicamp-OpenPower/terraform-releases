@@ -47,6 +47,9 @@ script:
 - ls -a
 - cd /home/travis/gopath
 - ls -a
+- cd pkg
+- ls -a
+- cd ..
 - cd bin
 - ls -a
 #- make test
