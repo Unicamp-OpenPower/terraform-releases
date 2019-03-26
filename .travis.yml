@@ -17,7 +17,7 @@ env:
 
 # Fetch consul for the backend and provider tests
 before_install:
-  - sudo apt install -y lftp
+ # - sudo apt install -y lftp
   - cd ..
   - rm -rf terraform
   - wget https://github.com/hashicorp/terraform/archive/v0.11.13.zip
@@ -44,8 +44,7 @@ before_script:
 script:
 - make
 - cd ..
-- zip -r teste.zip  terraform
-- lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/bazel teste.zip"
+- ls -a
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
