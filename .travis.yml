@@ -41,7 +41,7 @@ before_script:
 - git config --global url.https://github.com/.insteadOf ssh://git@github.com/
 
 script:
-- make
+- XC_OS=linux XC_ARCH=ppc64le make bin
 - ls -a
 - cd ..
 - ls -a
