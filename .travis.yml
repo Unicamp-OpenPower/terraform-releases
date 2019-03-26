@@ -55,9 +55,9 @@ env:
 before_install:
   - cd ..
   - rm -rf terraform
-  - wget https://github.com/hashicorp/terraform/archive/v0.11.13.zip
-  - unzip v0.11.13.zip
-  - mv terraform-0.11.13 terraform
+  - wget https://github.com/hashicorp/terraform/archive/v$version.zip
+  - unzip v$version.zip
+  - mv terraform-$version.zip terraform
   - cd terraform
   - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
   - unzip consul.zip
