@@ -64,6 +64,8 @@ before_install:
   - mkdir -p ~/bin
   - mv consul ~/bin
   - export PATH="~/bin:$PATH"
+  - sudo apt-get update
+  - sudo apt-get install -y lftp
 
 install:
 # This script is used by the Travis build to install a cookie for
@@ -78,16 +80,9 @@ before_script:
 
 script:
 - XC_OS=linux XC_ARCH=ppc64le make bin
-- ls -a
-- cd ..
-- ls -a
-- cd /home/travis/gopath
-- ls -a
-- cd pkg
-- ls -a
-- cd ..
 - cd bin
-- ls -a
+- mv terraform terraform-$version
+- lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$version"
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
