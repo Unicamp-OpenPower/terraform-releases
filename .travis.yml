@@ -1,39 +1,6 @@
-matrix:
-  fast_finish: true
-  allow_failures:
-  - go: tip
-  include:
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.13
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.12
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.11
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.10
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.9
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.8
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.7
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.6
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.5
-    - os: linux-ppc64le
-      dist: trusty
-      env: version=0.11.4
-      
+dist: trusty
+os: 
+  - linux-ppc64le
 sudo: required
 services:
   - docker
@@ -41,23 +8,26 @@ language: go
 go:
 - "1.12.1"
 
+# add TF_CONSUL_TEST=1 to run consul tests
 # they were causing timouts in travis
 # add TF_ETCDV3_TEST=1 to run etcdv3 tests
 # if added, TF_ETCDV3_ENDPOINTS must be set to a comma-separated list of (insecure) etcd endpoints against which to test
 env:
   - CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
 
+# Fetch consul for the backend and provider tests
 before_install:
   - cd ..
   - rm -rf terraform
   - wget https://github.com/hashicorp/terraform/archive/v$version.zip
-  - unzip v$version.zip
+  - v$version.zip
   - mv terraform-$version terraform
   - cd terraform
+  - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
+  - unzip consul.zip
   - mkdir -p ~/bin
+  - mv consul ~/bin
   - export PATH="~/bin:$PATH"
-  - sudo apt-get update
-  - sudo apt-get install -y lftp
 
 install:
 # This script is used by the Travis build to install a cookie for
@@ -75,7 +45,33 @@ script:
 - cd bin
 - mv terraform terraform-$version
 - lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$version"
+
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
 
+branches:
+  only:
+  - master
+  - v0.11
+notifications:
+  irc:
+    channels:
+    - irc.freenode.org#terraform-tool
+    skip_join: true
+    use_notice: true
+matrix:
+  fast_finish: true
+  allow_failures:
+  - go: tip
+  include:
+    - env: version=0.11.13
+    - env: version=0.11.12
+    - env: version=0.11.11
+    - env: version=0.11.10
+    - env: version=0.11.9
+    - env: version=0.11.8
+    - env: version=0.11.7
+    - env: version=0.11.6
+    - env: version=0.11.5
+    - env: version=0.11.4
