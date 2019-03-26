@@ -45,6 +45,10 @@ script:
 - ls -a
 - cd ..
 - ls -a
+- cd /home/travis/gopath
+- ls -a
+- cd bin
+- ls -a
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
