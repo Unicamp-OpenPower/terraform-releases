@@ -28,6 +28,8 @@ before_install:
   - mkdir -p ~/bin
   - mv consul ~/bin
   - export PATH="~/bin:$PATH"
+  - sudo apt update
+  - sudo apt install lftp
 
 install:
 # This script is used by the Travis build to install a cookie for
