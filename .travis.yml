@@ -20,7 +20,7 @@ before_install:
   - cd ..
   - rm -rf terraform
   - wget https://github.com/hashicorp/terraform/archive/v$version.zip
-  - v$version.zip
+  - unzip v$version.zip
   - mv terraform-$version terraform
   - cd terraform
   - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
