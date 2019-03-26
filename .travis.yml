@@ -41,14 +41,12 @@ language: go
 go:
 - "1.12.1"
 
-# add TF_CONSUL_TEST=1 to run consul tests
 # they were causing timouts in travis
 # add TF_ETCDV3_TEST=1 to run etcdv3 tests
 # if added, TF_ETCDV3_ENDPOINTS must be set to a comma-separated list of (insecure) etcd endpoints against which to test
 env:
   - CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
 
-# Fetch consul for the backend and provider tests
 before_install:
   - cd ..
   - rm -rf terraform
@@ -56,10 +54,7 @@ before_install:
   - unzip v$version.zip
   - mv terraform-$version terraform
   - cd terraform
-  - curl -sLo consul.zip https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-  - unzip consul.zip
   - mkdir -p ~/bin
-  - mv consul ~/bin
   - export PATH="~/bin:$PATH"
   - sudo apt-get update
   - sudo apt-get install -y lftp
@@ -83,15 +78,4 @@ script:
 #- make test
 # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
 #- make website-test
-
-branches:
-  only:
-  - master
-  - v0.11
-notifications:
-  irc:
-    channels:
-    - irc.freenode.org#terraform-tool
-    skip_join: true
-    use_notice: true
 
