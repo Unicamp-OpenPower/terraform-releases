@@ -4,25 +4,25 @@ get_latest_release() {
     sed -E 's/.*"([^"]+)".*/\1/'                                                     # Pluck JSON value
 }
 
-latest_version=`get_latest_release`
+github_version=$(cat github_version.txt)
 del_version=$(cat delete_version.txt)
 ftp_version=$(cat ftp_version.txt)
 
-if [ $latest_version != $ftp_version ]
+if [ $github_version != $ftp_version ]
 then
     cd ..
     rm -rf terraform
-    wget https://github.com/hashicorp/terraform/archive/v$latest_version.zip
-    unzip v$latest_version.zip
-    mv terraform-$latest_version terraform
+    wget https://github.com/hashicorp/terraform/archive/v$github_version.zip
+    unzip v$github_version.zip
+    mv terraform-$github_version terraform
     cd terraform
     XC_OS=linux XC_ARCH=ppc64le make bin
     cd bin
-    mv terraform terraform-$latest_version
+    mv terraform terraform-$github_version
     then
-          lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$latest_version" 
+          lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version" 
           lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$ftp_version" 
     fi
-    lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$latest_version" 
+    lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$github_version" 
     lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$del_version" 
 fi
