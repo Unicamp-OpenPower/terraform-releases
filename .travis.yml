@@ -1,15 +1,15 @@
 matrix:
   include:
-    - env: ver=0.12.6
-    - env: ver=0.12.5
-    - env: ver=0.12.4
-    - env: ver=0.12.3
-    - env: ver=0.12.2
-    - env: ver=0.12.1
-    - env: ver=0.12.0
-    - env: ver=0.11.14
-    - env: ver=0.11.13
-    - env: ver=0.11.12
+    - env: ver=0.12.6 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.5 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.4 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.3 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.2 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.1 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.12.0 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.11.14 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.11.13 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
+    - env: ver=0.11.12 CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
 
 os: 
   - linux-ppc64le
