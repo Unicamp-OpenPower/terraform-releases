@@ -1,4 +1,16 @@
-dist: trusty
+matrix:
+  include:
+    - env: ver=0.12.6
+    - env: ver=0.12.5
+    - env: ver=0.12.4
+    - env: ver=0.12.3
+    - env: ver=0.12.2
+    - env: ver=0.12.1
+    - env: ver=0.12.0
+    - env: ver=0.11.14
+    - env: ver=0.11.13
+    - env: ver=0.11.12
+
 os: 
   - linux-ppc64le
 sudo: required
