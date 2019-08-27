@@ -2,7 +2,7 @@ github_version=$ver #$(cat github_version.txt)
 ftp_version=$(cat ftp_version.txt)
 del_version=$(cat delete_version.txt)
 
-if [ $github_version != $ftp_version ] 
+if [ "$github_version" != "$ftp_version" ] 
 then
     cd ..
     rm -rf terraform
