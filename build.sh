@@ -17,11 +17,18 @@ then
     # See: https://github.com/golang/go/issues/12933
     bash scripts/gogetcookie.sh
     make tools
+    make test
+    go mod verify
     
-    git config --global url.https://github.com/.insteadOf ssh://git@github.com/  
-    
+    git config --global url.https://github.com/.insteadOf ssh://git@github.com/
+
     XC_OS=linux XC_ARCH=ppc64le make bin
     cd bin
+    sudo chmod 777 terraform
+    ./terraform -help
+    #- make e2etest
+    # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
+    #- make website-test
     mv terraform terraform-$github_version
     if [[ "$github_version" > "$ftp_version" ]]
     then
