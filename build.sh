@@ -1,7 +1,5 @@
-#github_version=$(cat github_version.txt)
-#ftp_version=$(cat ftp_version.txt)
-github_version=0.12.19
-ftp_version=3.3.15
+github_version=$(cat github_version.txt)
+ftp_version=$(cat ftp_version.txt)
 del_version=$(cat delete_version.txt)
 
 if [ "$github_version" != "$ftp_version" ] 
@@ -32,11 +30,11 @@ then
     # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
     #- make website-test
     mv terraform terraform-$github_version
-    #if [[ "$github_version" > "$ftp_version" ]]
-    #then
-          #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version" 
-          #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/latest/terraform-$ftp_version" 
-    #fi
+    if [[ "$github_version" > "$ftp_version" ]]
+    then
+          lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version" 
+          lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/latest/terraform-$ftp_version" 
+    fi
     lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$github_version" 
-    #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$del_version" 
+    lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$del_version" 
 fi
