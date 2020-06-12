@@ -4,31 +4,17 @@ del_version=$(cat delete_version.txt)
 
 if [ "$github_version" != "$ftp_version" ] 
 then
-    cd ..
-    rm -rf terraform
     wget https://github.com/hashicorp/terraform/archive/v$github_version.zip
     unzip v$github_version.zip
     mv terraform-$github_version terraform
-    cd terraform
-    
-    # This script is used by the Travis build to install a cookie for
-    # go.googlesource.com so rate limits are higher when using `go get` to fetch
-    # packages that live there.
-    # See: https://github.com/golang/go/issues/12933
+    cd terrafor
     bash scripts/gogetcookie.sh
-    make tools
-    make test
     go mod verify
-    
-    git config --global url.https://github.com/.insteadOf ssh://git@github.com/
-
-    XC_OS=linux XC_ARCH=ppc64le make bin
+    make fmtcheck generate
+    XC_OS=linux XC_ARCH=ppc64le bash scripts/build.sh
     cd bin
     sudo chmod 777 terraform
-    ./terraform -help
-    #- make e2etest
-    # website-test is temporarily disabled while we get the website build back in shape after the v0.12 reorganization
-    #- make website-test
+    ./terraform --version
     mv terraform terraform-$github_version
     if [[ "$github_version" > "$ftp_version" ]]
     then
