@@ -1,7 +1,7 @@
 #github_version=$(cat github_version.txt)
 #ftp_version=$(cat ftp_version.txt)
-ftp_version=0.12.25
-github_version=0.12.26
+ftp_version=0.12.24
+github_version=0.12.25
 #del_version=$(cat delete_version.txt)
 
 if [ "$github_version" != "$ftp_version" ] 
