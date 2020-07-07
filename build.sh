@@ -7,7 +7,7 @@ then
     wget https://github.com/hashicorp/terraform/archive/v$github_version.zip
     unzip v$github_version.zip
     mv terraform-$github_version terraform
-    cd terrafor
+    cd terraform
     bash scripts/gogetcookie.sh
     go mod verify
     make fmtcheck generate
