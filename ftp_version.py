@@ -9,7 +9,7 @@ file = open('github_version.txt', 'w')
 file.writelines(github_version)
 file.close()
 
-# find and save the current Bazel version on FTP server
+# find and save the current version on FTP server
 html = str(
     requests.get(
         'https://oplab9.parqtec.unicamp.br/pub/ppc64el/terraform/'
@@ -20,7 +20,7 @@ file = open('ftp_version.txt', 'w')
 file.writelines(ftp_version)
 file.close()
 
-# find and save the oldest Bazel version on FTP server
+# find and save the oldest version on FTP server
 index = html.find('terraform-')
 delete = html[index + 10:index + 17].replace('<', '').replace(' ', '').replace('\\', '')
 file = open('delete_version.txt', 'w')
