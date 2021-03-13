@@ -1,12 +1,12 @@
 os: linux
 arch: ppc64le
-dist: bionic
+dist: focal
 sudo: required
 services:
   - docker
 language: go
 go:
-- "1.14.x"
+- "1.16.x"
 
 env:
   - CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
@@ -22,6 +22,7 @@ before_install:
 install:
   - sudo apt update
   - sudo apt-get install lftp unzip zip
+  - printf "set ssl:verify-certificate false" >> ~/.lftprc
   - sudo apt install rpm
   - sudo apt install build-essential python3 tar wget
   - python3 ftp_version.py
