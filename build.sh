@@ -32,7 +32,7 @@ then
     #cd $LOCALPATH
     #sudo ./empacotar-deb.sh terraform terraform-$github_version $github_version " "
     #sudo ./empacotar-rpm.sh terraform terraform-$github_version $github_version " " "Use Infrastructure as Code to provision and manage any cloud, infrastructure, or service."
-    if [[ "$github_version" > "$ftp_version" ]]
+    if [[ "$github_version" != "$ftp_version" ]]
     then
         #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version"
         #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/latest/terraform-$ftp_version"
