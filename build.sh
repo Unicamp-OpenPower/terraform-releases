@@ -22,7 +22,7 @@ then
     cd bin
     sudo chmod 777 terraform
     ./terraform --version
-    #mv terraform terraform-$github_version
+    mv terraform terraform-$github_version
     #git clone https://$USERNAME:$TOKEN@github.com/Unicamp-OpenPower/repository-scrips.git
     #cd repository-scrips/
     #chmod +x empacotar-deb.sh
