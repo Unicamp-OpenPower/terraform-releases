@@ -4,7 +4,8 @@ REMOTEPATH='/ppc64el/terraform'
 ROOTPATH="~/rpmbuild/RPMS/ppc64le"
 REPO1="/repository/debian/ppc64el/terraform"
 REPO2="/repository/rpm/ppc64le/terraform"
-github_version=$(cat github_version.txt)
+#github_version=$(cat github_version.txt)
+github_version=0.13.5
 ftp_version=$(cat ftp_version.txt)
 del_version=$(cat delete_version.txt)
 
@@ -21,23 +22,23 @@ then
     cd bin
     sudo chmod 777 terraform
     ./terraform --version
-    mv terraform terraform-$github_version
-    git clone https://$USERNAME:$TOKEN@github.com/Unicamp-OpenPower/repository-scrips.git
-    cd repository-scrips/
-    chmod +x empacotar-deb.sh
-    chmod +x empacotar-rpm.sh
-    sudo mv empacotar-deb.sh $LOCALPATH
-    sudo mv empacotar-rpm.sh $LOCALPATH
-    cd $LOCALPATH
-    sudo ./empacotar-deb.sh terraform terraform-$github_version $github_version " "
-    sudo ./empacotar-rpm.sh terraform terraform-$github_version $github_version " " "Use Infrastructure as Code to provision and manage any cloud, infrastructure, or service."
+    #mv terraform terraform-$github_version
+    #git clone https://$USERNAME:$TOKEN@github.com/Unicamp-OpenPower/repository-scrips.git
+    #cd repository-scrips/
+    #chmod +x empacotar-deb.sh
+    #chmod +x empacotar-rpm.sh
+    #sudo mv empacotar-deb.sh $LOCALPATH
+    #sudo mv empacotar-rpm.sh $LOCALPATH
+    #cd $LOCALPATH
+    #sudo ./empacotar-deb.sh terraform terraform-$github_version $github_version " "
+    #sudo ./empacotar-rpm.sh terraform terraform-$github_version $github_version " " "Use Infrastructure as Code to provision and manage any cloud, infrastructure, or service."
     if [[ "$github_version" > "$ftp_version" ]]
     then
-        lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version"
-        lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/latest/terraform-$ftp_version"
-        lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O $REPO1 $LOCALPATH/terraform-$github_version-ppc64le.deb"
-        lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O $REPO2 $ROOTPATH/terraform-$github_version-1.ppc64le.rpm"
+        #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform/latest terraform-$github_version"
+        #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/latest/terraform-$ftp_version"
+        lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$github_version" 
+        #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$del_version" 
+        #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O $REPO1 $LOCALPATH/terraform-$github_version-ppc64le.deb"
+        #lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O $REPO2 $ROOTPATH/terraform-$github_version-1.ppc64le.rpm"
     fi
-    lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; put -O /ppc64el/terraform terraform-$github_version" 
-    lftp -c "open -u $USER,$PASS ftp://oplab9.parqtec.unicamp.br; rm /ppc64el/terraform/terraform-$del_version" 
 fi
