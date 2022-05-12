@@ -6,7 +6,7 @@ services:
   - docker
 language: go
 go:
-- "1.16.x"
+- "1.18.x"
 
 env:
   - CONSUL_VERSION=0.7.5 GOMAXPROCS=4 GO111MODULE=on
